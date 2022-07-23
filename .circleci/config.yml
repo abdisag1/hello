@@ -2,34 +2,32 @@ version: 2.1
 orbs:
   python: circleci/python@1.5.0
 
-
 jobs:
-    build:
-        docker:
-            - image: circleci/python:3.6.1
-    
-        working-directory: ~/hello
-        steps:
-            - checkout
-            - restore-cache:
-                keys:
-                    - v1-dependencies-{{ checksum "requiremnts.txt"}}
-                    - v1-dependencies-
-            
-            - run:
-                name: install dependencies
-                command: |
-                    python3 -m venv venv
-                    -venv/bin/activate
-                    make install
-            
-            - save_cache:
-                paths:
-                    - ./venv
-                key: v1-dependencies-{{ checksum "requirements.txt"}}
-            - run:
-                name: run tests
-                command: |
-                    - venv/bin/activate
-                    make lint
-                   
+  build:
+    docker:
+      - image: circleci/python:3.6.1
+
+    working-directory: ~/hello
+    steps:
+      - checkout
+      - restore-cache:
+          keys:
+            - v1-dependencies-{{ checksum "requiremnts.txt"}}
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            -venv/bin/activate
+            make install
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt"}}
+      - run:
+          name: run tests
+          command: |
+            - venv/bin/activate
+            make lint
